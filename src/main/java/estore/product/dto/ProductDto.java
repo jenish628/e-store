@@ -11,5 +11,6 @@ public class ProductDto {
     private String vendor;
     private String category;
     private Long availableUnits;
+    private Long user;
 
 }

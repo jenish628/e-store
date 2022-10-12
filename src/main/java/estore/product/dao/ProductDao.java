@@ -13,4 +13,11 @@ public interface ProductDao {
     public Long updateProduct(ProductDto product, Long id);
     public boolean deleteProduct(Long id);
 
+
+    public void addByUser(ProductDto productDto);
+    public List<ProductDto> getAllByUser(Long user);
+    public String deleteByUser(Long user);
+    public Long updateByUser(ProductDto productDto, Long user, Long id);
+
+
 }

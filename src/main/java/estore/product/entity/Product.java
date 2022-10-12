@@ -22,5 +22,8 @@ public class Product {
     private Long availableUnits;
 
 
+    private Long user;
+
+
 
 }
