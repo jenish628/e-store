@@ -20,7 +20,7 @@ public class Product {
     @Column (table = "available")
     private Long availableUnits;
 
-    private Long user;
+    private String username;
 
     @ManyToOne
     private Category category;

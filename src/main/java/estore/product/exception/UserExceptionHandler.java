@@ -12,9 +12,17 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 public class UserExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler({UserNotFoundException.class})
-    public ResponseEntity<Object> handleUserNotFound(Exception e, WebRequest request){
+    public ResponseEntity<Object> handleUserNotFound(Exception e, WebRequest request) {
         return handleExceptionInternal(e, "User not found",
                 new HttpHeaders(), HttpStatus.NOT_FOUND, request);
     }
+
+
+    @ExceptionHandler({ProductNotFoundException.class})
+    public ResponseEntity<Object> productNotFoundException(ProductNotFoundException e, WebRequest request) {
+        return handleExceptionInternal(e, "Product not found",
+                new HttpHeaders(), HttpStatus.NOT_FOUND, request);
+    }
+
 
 }
