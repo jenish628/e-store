@@ -1,5 +1,6 @@
 package estore.product.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,6 +24,7 @@ public class Product {
     private String username;
 
     @ManyToOne
+    @JsonManagedReference
     private Category category;
 
 

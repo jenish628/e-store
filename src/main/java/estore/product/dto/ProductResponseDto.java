@@ -1,16 +1,17 @@
 package estore.product.dto;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
-@NoArgsConstructor
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
 @Data
-public class ProductDto {
+
+
+public class ProductResponseDto {
     private Long productId;
     private String name;
     private String vendor;
-    private Long category;
+    private String  category;
     private Long availableUnits;
     private String username;
-
 }

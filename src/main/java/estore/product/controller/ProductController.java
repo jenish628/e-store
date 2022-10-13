@@ -1,18 +1,10 @@
 package estore.product.controller;
-
-
 import estore.product.dao.ProductDao;
 import estore.product.dto.ProductDto;
-import estore.product.entity.Product;
-
-import eye2web.modelmapper.ModelMapper;
-import org.apache.catalina.User;
-import org.springframework.beans.factory.annotation.Autowired;
+import estore.product.dto.ProductResponseDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import javax.annotation.Resource;
-
 import java.util.List;
 
 @RestController
@@ -53,7 +45,7 @@ public class ProductController {
 
 
     @GetMapping("/category/{categoryId}")
-    public List<ProductDto> getAllProductsByCategory(@PathVariable Long categoryId) {
+    public List<ProductResponseDto> getAllProductsByCategory(@PathVariable Long categoryId) {
         return productDao.findByCategory(categoryId);
     }
 

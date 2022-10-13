@@ -25,4 +25,9 @@ public class UserExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
 
+    @ExceptionHandler({CategoryNotFoundException.class})
+    public ResponseEntity<Object> categoryNotFoundException(CategoryNotFoundException e, WebRequest request) {
+        return handleExceptionInternal(e, "Category not found",
+                new HttpHeaders(), HttpStatus.NOT_FOUND, request);
+    }
 }

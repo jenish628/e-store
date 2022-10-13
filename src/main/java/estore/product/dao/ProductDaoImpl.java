@@ -1,48 +1,72 @@
 package estore.product.dao;
 
+import estore.product.dto.CategoryDto;
 import estore.product.dto.ProductDto;
+import estore.product.dto.ProductResponseDto;
+import estore.product.entity.Category;
 import estore.product.entity.Product;
 import estore.product.exception.ProductNotFoundException;
 import estore.product.exception.UserNotFoundException;
+import estore.product.mapper.ProductMapper;
 import estore.product.repository.ProductRepository;
+
 import estore.product.util.AppUtil;
-import eye2web.modelmapper.ModelMapper;
+import org.apache.tomcat.Jar;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 
 @Service
+@Transactional
 public class ProductDaoImpl implements ProductDao {
 
-    @Autowired
-    private ProductRepository productRepository;
+private static final Logger LOGGER = LoggerFactory.getLogger(ProductDaoImpl.class);
+
+    private final ProductRepository productRepository;
+    private final ProductMapper productMapper;
+
+    private final CategoryDao categoryDao;
+
 
     @Autowired
-    private ModelMapper mapper;
-
-
-    @Override
-    public List<ProductDto> getAllProducts() {
-        return productRepository.findAll().stream()
-                .map(a -> mapper.map(a, ProductDto.class)).collect(Collectors.toList());
+    public ProductDaoImpl(ProductRepository productRepository, ProductMapper productMapper, CategoryDao categoryDao) {
+        this.productRepository = productRepository;
+        this.productMapper = productMapper;
+        this.categoryDao = categoryDao;
     }
 
     @Override
-    public ProductDto getById(Long id) {
-        return mapper.map(findById(id), ProductDto.class);
+    public List<ProductResponseDto> getAllProducts() {
+        return this.productMapper.toDtoList(productRepository.findAll());
     }
 
     @Override
-    public ProductDto addProduct(ProductDto productDto) {
-        return getDtoByEntity(productRepository.save(getEntityByDto(productDto)));
+    public ProductResponseDto getById(Long id) {
+        Product product = findById(id);
+        LOGGER.info("Product detail",product);
+        LOGGER.debug("Product detail",product);
+        LOGGER.trace("Product detail",product);
+
+        return this.productMapper.toDto(product);
     }
 
     @Override
-    public ProductDto updateProduct(ProductDto productDto, Long id) {
+    public ProductResponseDto addProduct(ProductDto productDto) {
+
+        Category category = categoryDao.verifyCategoryWhileAddingProduct(productDto.getCategory());
+        Product product = productRepository.save(getEntityByDto(productDto));
+        category.addProduct(product);
+        return getDtoByEntity(product);
+    }
+
+    @Override
+    public ProductResponseDto updateProduct(ProductDto productDto, Long id) {
 
         Product product = findById(id);
         productDto.setProductId(id);
@@ -57,17 +81,18 @@ public class ProductDaoImpl implements ProductDao {
     }
 
     @Override
-    public List<ProductDto> findByCategory(Long id) {
-        return productRepository.findAllByCategory(id).stream()
-                .map(a -> mapper.map(a, ProductDto.class)).collect(Collectors.toList());
+    public List<ProductResponseDto> findByCategory(Long id) {
+
+        return this.productMapper.toDtoList(productRepository.findAllByCategory(id));
     }
 
 
     @Override
-    public List<ProductDto> getAllByUser(String user) {
+    public List<ProductResponseDto> getAllByUser(String user) {
 
-        return productRepository.findAllByUsername(user).stream()
-                .map(this::getDtoByEntity).collect(Collectors.toList());
+
+        return this.productMapper.toDtoList(productRepository.findAllByUsername(user));
+
 
     }
 
@@ -89,8 +114,6 @@ public class ProductDaoImpl implements ProductDao {
     }
 
 
-
-
     private Product findById(Long id) {
         Optional<Product> productOptional = productRepository.findByProductIdAndUsername(id, AppUtil.getCurrentUser());
         if (productOptional.isEmpty()) throw new ProductNotFoundException("Product not found");
@@ -100,15 +123,15 @@ public class ProductDaoImpl implements ProductDao {
 
 
     private Product getEntityByDto(ProductDto productDto) {
-        Product product = mapper.map(productDto, Product.class);
+        Product product = this.productMapper.toEntity(productDto);
         product.setUsername(AppUtil.getCurrentUser());
         return product;
 
     }
 
 
-    private ProductDto getDtoByEntity(Product product) {
-        return mapper.map(product, ProductDto.class);
+    private ProductResponseDto getDtoByEntity(Product product) {
+        return this.productMapper.toDto(product);
     }
 
 }

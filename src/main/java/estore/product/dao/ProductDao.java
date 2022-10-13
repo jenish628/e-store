@@ -1,25 +1,26 @@
 package estore.product.dao;
 
 import estore.product.dto.ProductDto;
+import estore.product.dto.ProductResponseDto;
 import estore.product.entity.Product;
 
 import java.util.List;
 
 public interface ProductDao {
 
-    public List<ProductDto> getAllProducts();
+    public List<ProductResponseDto> getAllProducts();
 
-    public ProductDto getById(Long id);
+    public ProductResponseDto getById(Long id);
 
-    public ProductDto addProduct(ProductDto product);
+    public ProductResponseDto addProduct(ProductDto product);
 
-    public ProductDto updateProduct(ProductDto product, Long id);
+    public ProductResponseDto updateProduct(ProductDto product, Long id);
 
     public void deleteProduct(Long id);
 
-    public List<ProductDto> findByCategory(Long id);
+    public List<ProductResponseDto> findByCategory(Long id);
 
-    public List<ProductDto> getAllByUser(String user);
+    public List<ProductResponseDto> getAllByUser(String user);
 
     public String deleteByUser(String user);
 
