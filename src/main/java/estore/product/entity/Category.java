@@ -5,26 +5,19 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
-@SecondaryTable(name = "available")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Product {
+public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long productId;
+    private long categoryId;
     private String name;
-    private String vendor;
-    @Column (table = "available")
-    private Long availableUnits;
+    private String user;
 
-    private Long user;
-
-    @ManyToOne
-    private Category category;
-
-
-
+    @OneToMany(mappedBy = "category",cascade = CascadeType.ALL)
+    private List<Product> products;
 }

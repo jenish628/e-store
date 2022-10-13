@@ -14,6 +14,8 @@ public interface ProductDao {
     public boolean deleteProduct(Long id);
 
 
+    public List<ProductDto> findByCategory(Long id);
+
     public void addByUser(ProductDto productDto);
     public List<ProductDto> getAllByUser(Long user);
     public String deleteByUser(Long user);

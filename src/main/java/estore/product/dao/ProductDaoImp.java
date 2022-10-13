@@ -1,6 +1,7 @@
 package estore.product.dao;
 
 import estore.product.dto.ProductDto;
+import estore.product.entity.Category;
 import estore.product.entity.Product;
 import estore.product.exception.UserNotFoundException;
 import estore.product.repository.ProductRepository;
@@ -49,7 +50,7 @@ public class ProductDaoImp implements ProductDao{
         product1.setProductId(product.getProductId());
         product1.setName(product.getName());
         product1.setVendor(product.getVendor());
-        product1.setCategory(product.getCategory());
+
         product1.setAvailableUnits(product.getAvailableUnits());
         productRepository.save(product1);
         return product.getProductId();
@@ -63,6 +64,12 @@ public class ProductDaoImp implements ProductDao{
         }catch (Exception e){
             return false;
         }
+    }
+
+    @Override
+    public List<ProductDto> findByCategory(Long id) {
+        return productRepository.findAllByCategory(id).stream()
+                .map(a->mapper.map(a, ProductDto.class)).collect(Collectors.toList());
     }
 
 
@@ -101,7 +108,7 @@ public class ProductDaoImp implements ProductDao{
             product1.setProductId(product.getProductId());
             product1.setName(product.getName());
             product1.setVendor(product.getVendor());
-            product1.setCategory(product.getCategory());
+
             product1.setAvailableUnits(product.getAvailableUnits());
             productRepository.save(product1);
             return product.getProductId();
