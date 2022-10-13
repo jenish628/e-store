@@ -55,7 +55,7 @@ public class ProductController {
 
     @GetMapping("/category/{categoryId}")
     public List<ProductDto> getAllProductsByCategory(@PathVariable Long categoryId){
-        return productDao.findbyCategory(categoryId);
+        return productDao.findByCategory(categoryId);
     }
 
 
