@@ -5,6 +5,7 @@ import estore.product.dto.ProductResponseDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -27,12 +28,12 @@ public class ProductController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<?> addProducts(@RequestBody ProductDto product) {
+    public ResponseEntity<?> addProducts(@RequestBody @Valid ProductDto product) {
         return ResponseEntity.ok(productDao.addProduct(product));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> editProduct(@RequestBody ProductDto product,
+    public ResponseEntity<?> editProduct(@RequestBody @Valid ProductDto product,
                                          @PathVariable Long id) {
         return ResponseEntity.ok(productDao.updateProduct(product, id));
     }

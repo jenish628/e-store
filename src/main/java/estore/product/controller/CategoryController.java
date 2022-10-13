@@ -4,6 +4,8 @@ import estore.product.dto.CategoryDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/api/categories")
 
@@ -17,13 +19,13 @@ public class CategoryController {
     }
 
     @PostMapping
-    public ResponseEntity<?> add(@RequestBody CategoryDto categoryDto) {
+    public ResponseEntity<?> add(@RequestBody @Valid CategoryDto categoryDto) {
         return ResponseEntity.ok(categoryDao.add(categoryDto));
     }
 
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody CategoryDto categoryDto) {
+    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody @Valid CategoryDto categoryDto) {
         return ResponseEntity.ok(categoryDao.update(id, categoryDto));
     }
 
