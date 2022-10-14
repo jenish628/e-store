@@ -1,5 +1,6 @@
 package estore.product.dto;
 
+import estore.product.enumm.ProductEnum;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -19,5 +20,6 @@ public class ProductDto {
     @NotNull(message = "Available Units is required")
     private Long availableUnits;
     private String username;
+    private ProductEnum productEnum;
 
 }

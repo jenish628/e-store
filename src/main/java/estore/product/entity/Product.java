@@ -1,6 +1,7 @@
 package estore.product.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import estore.product.enumm.ProductEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -27,6 +28,8 @@ public class Product {
     @JsonManagedReference
     private Category category;
 
+    @Enumerated(EnumType.STRING)
+    private ProductEnum productEnum;
 
 
 }

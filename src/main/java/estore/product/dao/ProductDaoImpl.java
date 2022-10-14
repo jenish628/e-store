@@ -5,6 +5,7 @@ import estore.product.dto.ProductDto;
 import estore.product.dto.ProductResponseDto;
 import estore.product.entity.Category;
 import estore.product.entity.Product;
+import estore.product.enumm.ProductEnum;
 import estore.product.exception.ProductNotFoundException;
 import estore.product.exception.UserNotFoundException;
 import estore.product.mapper.ProductMapper;
@@ -111,6 +112,22 @@ private static final Logger LOGGER = LoggerFactory.getLogger(ProductDaoImpl.clas
     public Long updateByUser(ProductDto productDto, Long user, Long id) {
 
         return null;
+    }
+
+    @Override
+    public Long changeAvailableUnits(ProductDto productDto) {
+        Product product = productRepository.findById(productDto.getProductId()).get();
+        if(product.getAvailableUnits() == null){
+            throw new ProductNotFoundException("Product Does not Exists");
+        }else{
+            if (product.getProductEnum().equals(ProductEnum.SOLD)){
+                product.setAvailableUnits(product.getAvailableUnits()-AppUtil.getSoldQuantity());
+            }else {
+                product.setAvailableUnits(product.getAvailableUnits()+ AppUtil.getSoldQuantity());
+            }
+        }
+        return product.getProductId();
+
     }
 
 

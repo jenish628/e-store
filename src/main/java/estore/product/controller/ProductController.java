@@ -69,4 +69,12 @@ public class ProductController {
 
     }
 
+
+
+    @PutMapping("/changeUnits")
+    public ResponseEntity<?> changeAvailableUnits(@RequestBody ProductDto productDto ){
+        return ResponseEntity.ok(productDao.changeAvailableUnits(productDto));
+    }
+
+
 }

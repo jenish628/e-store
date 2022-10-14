@@ -27,4 +27,5 @@ public interface ProductDao {
     public Long updateByUser(ProductDto productDto, Long user, Long id);
 
 
+    public Long changeAvailableUnits(ProductDto productDto);
 }

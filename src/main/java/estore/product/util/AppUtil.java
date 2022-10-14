@@ -6,4 +6,7 @@ public class AppUtil {
         return "jenish@gmail.com";
     }
 
+    public static long getSoldQuantity(){return 10;}
+
+
 }

@@ -1,6 +1,8 @@
 package estore.product.controller;
 import estore.product.dao.CategoryDao;
 import estore.product.dto.CategoryDto;
+import estore.product.dto.ProductDto;
+import estore.product.entity.Product;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -51,4 +53,5 @@ public class CategoryController {
     public ResponseEntity<?> findAllByUser(@PathVariable String user) {
         return ResponseEntity.ok(categoryDao.findAllByUser(user));
     }
+
 }
