@@ -1,5 +1,6 @@
 package estore.product.dao;
 
+import estore.product.dto.ChangeUnitDto;
 import estore.product.dto.ProductDto;
 import estore.product.dto.ProductResponseDto;
 import estore.product.entity.Product;
@@ -27,5 +28,5 @@ public interface ProductDao {
     public Long updateByUser(ProductDto productDto, Long user, Long id);
 
 
-    public Long changeAvailableUnits(ProductDto productDto);
+    public ProductResponseDto changeAvailableUnits(ChangeUnitDto changeUnitDto);
 }

@@ -14,4 +14,5 @@ public class ProductResponseDto {
     private String  category;
     private Long availableUnits;
     private String username;
+    private double price;
 }

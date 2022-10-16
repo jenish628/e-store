@@ -1,5 +1,6 @@
 package estore.product.controller;
 import estore.product.dao.ProductDao;
+import estore.product.dto.ChangeUnitDto;
 import estore.product.dto.ProductDto;
 import estore.product.dto.ProductResponseDto;
 import org.springframework.http.ResponseEntity;
@@ -70,8 +71,8 @@ public class ProductController {
     }
 
     @PutMapping("/changeUnits")
-    public ResponseEntity<?> changeAvailableUnits(@RequestBody ProductDto productDto ){
-        return ResponseEntity.ok(productDao.changeAvailableUnits(productDto));
+    public ResponseEntity<?> changeAvailableUnits(@RequestBody ChangeUnitDto changeUnitDto ){
+        return ResponseEntity.ok(productDao.changeAvailableUnits(changeUnitDto));
     }
 
 

@@ -1,6 +1,7 @@
 package estore.product.dao;
 
 import estore.product.dto.CategoryDto;
+import estore.product.dto.ChangeUnitDto;
 import estore.product.dto.ProductDto;
 import estore.product.dto.ProductResponseDto;
 import estore.product.entity.Category;
@@ -27,7 +28,7 @@ import java.util.Optional;
 @Transactional
 public class ProductDaoImpl implements ProductDao {
 
-private static final Logger LOGGER = LoggerFactory.getLogger(ProductDaoImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProductDaoImpl.class);
 
     private final ProductRepository productRepository;
     private final ProductMapper productMapper;
@@ -50,9 +51,9 @@ private static final Logger LOGGER = LoggerFactory.getLogger(ProductDaoImpl.clas
     @Override
     public ProductResponseDto getById(Long id) {
         Product product = findById(id);
-        LOGGER.info("Product detail",product);
-        LOGGER.debug("Product detail",product);
-        LOGGER.trace("Product detail",product);
+        LOGGER.info("Product detail", product);
+        LOGGER.debug("Product detail", product);
+        LOGGER.trace("Product detail", product);
 
         return this.productMapper.toDto(product);
     }
@@ -115,19 +116,26 @@ private static final Logger LOGGER = LoggerFactory.getLogger(ProductDaoImpl.clas
     }
 
     @Override
-    public Long changeAvailableUnits(ProductDto productDto) {
-        Product product = productRepository.findById(productDto.getProductId()).get();
-        if(product.getAvailableUnits() == null){
-            throw new ProductNotFoundException("Product Does not Exists");
-        }else{
-            if (product.getProductEnum().equals(ProductEnum.SOLD)){
-                product.setAvailableUnits(product.getAvailableUnits()-AppUtil.getSoldQuantity());
-            }else {
-                product.setAvailableUnits(product.getAvailableUnits()+ AppUtil.getSoldQuantity());
-            }
-        }
-        return product.getProductId();
+    public ProductResponseDto changeAvailableUnits(ChangeUnitDto changeUnitDto) {
 
+
+        Optional<Product> optionalProduct = productRepository.findById(changeUnitDto.getProductId());
+        if (optionalProduct.isEmpty()) throw new ProductNotFoundException("Product Does not Exists");
+        Product product = optionalProduct.get();
+
+        if (product.getAvailableUnits() < changeUnitDto.getQuantity())
+            throw new ProductNotFoundException("Insufficient product");
+
+
+        if (changeUnitDto.getStatus().equals(ProductEnum.SOLD)) {
+            product.setAvailableUnits(product.getAvailableUnits() - changeUnitDto.getQuantity());
+        } else {
+            product.setAvailableUnits(product.getAvailableUnits() + changeUnitDto.getQuantity());
+        }
+
+        productRepository.saveAndFlush(product);
+
+        return getDtoByEntity(product);
     }
 
 

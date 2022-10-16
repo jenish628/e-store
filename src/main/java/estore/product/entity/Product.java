@@ -21,7 +21,7 @@ public class Product {
     private String vendor;
     @Column (table = "available")
     private Long availableUnits;
-
+    private double price;
     private String username;
 
     @ManyToOne
